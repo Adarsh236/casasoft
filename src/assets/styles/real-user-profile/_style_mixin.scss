@@ -1,0 +1,151 @@
+// div
+@mixin getBox($backgroundColor, $heightInVH, $minDisplayHeight) {
+  background-color: $backgroundColor;
+  height: $heightInVH + vh;
+  width: 100%;
+  min-height: $minDisplayHeight * ($heightInVH/100);
+  position: relative;
+}
+
+@mixin getFlexbox($backgroundColor, $heightInVH, $minDisplayHeight) {
+  background-color: $backgroundColor;
+  height: $heightInVH + vh;
+  width: 100%;
+  min-height: $minDisplayHeight * ($heightInVH/100);
+  display: flex;
+}
+
+@mixin getFlexboxWithoutHeight($backgroundColor) {
+  background-color: $backgroundColor;
+  width: 100%;
+  display: flex;
+}
+
+@mixin getFlexcol($number, $align, $justify) {
+  flex: $number;
+  height: 100%;
+  align-items: $align;
+  justify-content: $justify;
+  display: flex;
+}
+
+@mixin getFlexcolWithHeight($heightInVH, $minDisplayHeight, $number, $align, $justify) {
+  flex: $number;
+  height: $heightInVH + vh;
+  min-height: $minDisplayHeight * ($heightInVH/100);
+  align-items: $align;
+  justify-content: $justify;
+  display: flex;
+}
+
+@mixin getFlexcolWithDirection($number, $direction, $align, $justify) {
+  flex: $number;
+  height: 100%;
+  flex-direction: $direction;
+  align-items: $align;
+  justify-content: $justify;
+  display: flex;
+}
+
+@mixin getFlexcolWithDirectionAndHeight($heightInVH, $minDisplayHeight, $number, $direction, $align, $justify) {
+  flex: $number;
+  height: $heightInVH + vh;
+  min-height: $minDisplayHeight * ($heightInVH/100);
+  flex-direction: $direction;
+  align-items: $align;
+  justify-content: $justify;
+  display: flex;
+}
+
+//  mat-slider
+@mixin setVerticalSlider(
+  $sliderWidth,
+  $borderRadius,
+  $colorBackground,
+  $colorTrackFill,
+  $thumbRadius,
+  $thumbColor,
+  $thumbBorderThick,
+  $thumbBorderColor
+) {
+  ::ng-deep {
+    .mat-slider {
+      height: 100%;
+    }
+
+    .mat-slider.mat-slider-vertical .mat-slider-wrapper {
+      top: 0px;
+      left: 0px;
+    }
+
+    .mat-slider.mat-slider-vertical .mat-slider-track-wrapper {
+      width: $sliderWidth;
+      border-radius: $borderRadius;
+    }
+
+    .mat-slider.mat-slider-vertical .mat-slider-track-background,
+    .mat-slider.mat-slider-vertical .mat-slider-track-fill {
+      width: 100%;
+      background-color: $colorBackground;
+    }
+
+    .mat-slider.mat-slider-vertical .mat-slider-track-fill {
+      background-color: $colorTrackFill;
+    }
+
+    .mat-accent .mat-slider-thumb {
+      height: $thumbRadius;
+      width: $thumbRadius;
+      background-color: $thumbColor;
+      border: $thumbBorderThick solid $thumbBorderColor;
+      bottom: -$thumbRadius/2;
+      right: -$thumbRadius/2 - $sliderWidth/2 + 1;
+    }
+    .mat-slider-min-value:not(.mat-slider-thumb-label-showing) .mat-slider-thumb {
+      background-color: $thumbColor;
+    }
+  }
+}
+
+@mixin setHorizontalSlider(
+  $sliderHeight,
+  $borderRadius,
+  $colorBackground,
+  $colorTrackFill,
+  $thumbRadius,
+  $thumbColor,
+  $thumbBorderThick,
+  $thumbBorderColor
+) {
+  ::ng-deep {
+    .mat-slider {
+      width: 100%;
+    }
+    .mat-slider.mat-slider-horizontal .mat-slider-wrapper {
+      top: 0;
+    }
+    .mat-slider.mat-slider-horizontal .mat-slider-track-wrapper {
+      height: $sliderHeight;
+      border-radius: $borderRadius;
+    }
+    .mat-slider.mat-slider-horizontal .mat-slider-track-background,
+    .mat-slider.mat-slider-horizontal .mat-slider-track-fill {
+      height: 100%;
+      background-color: $colorBackground;
+    }
+    .mat-slider.mat-slider-horizontal .mat-slider-track-fill {
+      background-color: $colorTrackFill;
+    }
+    .mat-accent .mat-slider-thumb {
+      height: $thumbRadius;
+      width: $thumbRadius;
+      background-color: $thumbColor;
+      border: $thumbBorderThick solid $thumbBorderColor;
+      bottom: -$thumbRadius/2 - $sliderHeight/2 + 1;
+      right: -$thumbRadius/2;
+    }
+    .mat-slider-min-value:not(.mat-slider-thumb-label-showing) .mat-slider-thumb {
+      background-color: $thumbColor;
+    }
+  }
+}

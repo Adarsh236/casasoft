@@ -1,0 +1,26 @@
+@mixin scroll-bar-dark($scroll-barBG-color, $thumbBG-color, $width, $height, $scrollBar-width, $border-radius, $border) {
+    .scroll-bar-dark{
+        --scrollbarBG: $scroll-barBG-color;
+        --thumbBG: $thumbBG-color;
+
+        overflow-y: scroll;
+        height: $height;
+        scrollbar-width: $scrollBar-width;
+        scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+
+        &::-webkit-scrollbar{
+            width: 17px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: var(--scrollbarBG);
+        }
+
+        &::-webkit-scrollbar-thumb {
+             background-color: var(--thumbBG) ;
+             border-radius: $border-radius;
+             border: $border solid var(--scrollbarBG);
+        }
+    }
+
+}

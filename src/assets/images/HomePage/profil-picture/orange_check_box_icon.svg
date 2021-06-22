@@ -1,0 +1,10 @@
+<svg id="Checked" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <g id="Rectangle_692" data-name="Rectangle 692" fill="#22404e" stroke="#fcfcfc" stroke-width="1">
+    <rect width="32" height="32" stroke="none"/>
+    <rect x="0.5" y="0.5" width="31" height="31" fill="none"/>
+  </g>
+  <g id="Close" transform="translate(9.713 3.946) rotate(12)">
+    <line id="Line_344" data-name="Line 344" x2="9.25" y2="8.5" transform="translate(0 11)" fill="none" stroke="#f80" stroke-linecap="round" stroke-width="2"/>
+    <line id="Line_345" data-name="Line 345" y1="19.25" x2="7.5" transform="translate(9.5)" fill="none" stroke="#f80" stroke-linecap="round" stroke-width="2"/>
+  </g>
+</svg>
