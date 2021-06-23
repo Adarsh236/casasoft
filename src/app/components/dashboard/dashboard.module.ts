@@ -16,8 +16,20 @@ import { CRUDTableModule } from 'src/app/components/shared/crud-table';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 
+import { IngredientsComponent } from './ingredients/ingredients.component';
+import { DeleteIngredientModalComponent } from './ingredients/components/delete-ingredient-modal/delete-ingredient-modal.component';
+import { DeleteIngredientsModalComponent } from './ingredients/components/delete-ingredients-modal/delete-ingredients-modal.component';
+import { EditIngredientModalComponent } from './ingredients/components/edit-ingredient-modal/edit-ingredient-modal.component';
+
 @NgModule({
-  declarations: [NavBarComponent, DashboardComponent],
+  declarations: [
+    NavBarComponent,
+    DashboardComponent,
+    IngredientsComponent,
+    DeleteIngredientModalComponent,
+    DeleteIngredientsModalComponent,
+    EditIngredientModalComponent,
+  ],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -31,6 +43,10 @@ import { DashboardComponent } from './dashboard.component';
     MatToolbarModule,
     MatIconModule,
   ],
-  entryComponents: [],
+  entryComponents: [
+    DeleteIngredientModalComponent,
+    DeleteIngredientsModalComponent,
+    EditIngredientModalComponent,
+  ],
 })
 export class DashboardModule {}

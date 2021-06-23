@@ -7,6 +7,8 @@ export const environment = {
   apiUrl: 'http://localhost:4000',
   AWS_UserPoolId: 'us-east-2_OgzmZczSW',
   AWS_ClientId: '5dukledt47clj4macvvfo333t2',
+  Spoonacular_Base_Url: 'https://api.spoonacular.com',
+  Spoonacular_API_KEY: '3d01ebdfea1b4a4ca4dbf3aed3152c6c',
 };
 
 /*

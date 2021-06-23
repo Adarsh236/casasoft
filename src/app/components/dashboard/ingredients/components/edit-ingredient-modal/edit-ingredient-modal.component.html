@@ -1,0 +1,175 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4" id="example-modal-sizes-title-lg">
+      <ng-container *ngIf="ingredient">
+        <ng-container *ngIf="ingredient.id">Edit</ng-container>
+        <ng-container *ngIf="!ingredient.id">Create</ng-container>
+        ingredient
+        <ng-container *ngIf="ingredient.id">'{{ ingredient.title }}'</ng-container>
+      </ng-container>
+    </div>
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body" style="min-height: 404px">
+    <ng-container *ngIf="isLoading$ | async">
+      <div class="overlay-layer bg-transparent">
+        <div class="spinner spinner-lg spinner-success"></div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="ingredient">
+      <form action="#" class="form form-label-right" [formGroup]="formGroup">
+        <div class="card-body">
+          <div class="row">
+            <label class="col-xl-3"></label>
+            <div class="col-lg-9 col-xl-6">
+              <h2 class="font-weight-bold mb-6">Ingredient Info</h2>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-xl-3 col-lg-3">Image</label>
+            <div class="col-lg-9 col-xl-6">
+              <div class="image-input image-input-outline" id="kt_profile_avatar"
+                [class.image-input-empty]="!ingredient.img"
+                [style.backgroundImage]="'url(./assets/media/users/blank.png)'">
+                <img class="image-input-wrapper" [src]="getImg()" alt="your image" />
+                <label class="
+                    btn
+                    btn-xs
+                    btn-icon
+                    btn-circle
+                    btn-white
+                    btn-hover-text-primary
+                    btn-shadow
+                  " data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
+                  <i class="fa fa-pen icon-sm text-muted"></i>
+                  <input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg"
+                    (change)="selectedAndSubmitFile($event)" />
+                  <input type="hidden" name="profile_avatar_remove" formControlName="img" />
+                </label>
+                <span class="
+                    btn
+                    btn-xs
+                    btn-icon
+                    btn-circle
+                    btn-white
+                    btn-hover-text-primary
+                    btn-shadow
+                  " data-action="cancel" data-toggle="tooltip" title="" data-original-title="Cancel avatar">
+                  <i class="ki ki-bold-close icon-xs text-muted"></i>
+                </span>
+                <span *ngIf="ingredient.img" class="
+                    btn
+                    btn-xs
+                    btn-icon
+                    btn-circle
+                    btn-white
+                    btn-hover-text-primary
+                    btn-shadow
+                  " (click)="deletePic()" data-action="remove" data-toggle="tooltip" title=""
+                  data-original-title="Remove avatar">
+                  <i class="ki ki-bold-close icon-xs text-muted"></i>
+                </span>
+              </div>
+              <span class="form-text text-muted">Allowed file types: png, jpg, jpeg.</span>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col">
+              <label class="form-label">Enter Title</label>
+              <input type="text" class="form-control form-control-lg form-control-solid" name="title"
+                placeholder="Title Name" autocomplete="off" [class.is-invalid]="isControlInvalid('title')"
+                [class.is-valid]="isControlValid('title')" formControlName="title" />
+              <div class="valid-feedback" *ngIf="isControlValid('title')">
+                Title was entered correct
+              </div>
+              <div class="invalid-feedback" *ngIf="controlHasError('required', 'title')">
+                Title is required
+              </div>
+              <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'title')">
+                Title should have at least 3 symbols
+              </div>
+              <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'title')">
+                Title should have maximum 10 symbols
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col">
+              <h4 class="font-weight-bold">
+                Enter Nutritional Information per 100g:
+                <button type="button" class="btn btn-light-primary font-weight-bold btn-sm mr-3"
+                  (click)="fetchNutrients()" [disabled]="!isControlValid('title')">
+                  Update
+                </button>
+              </h4>
+              <div class="error" *ngIf="fetchMsg">
+                No Ingredient found with the provided title
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col">
+              <label class="form-label">Fat (g)</label>
+              <input type="text" class="form-control form-control-lg form-control-solid" name="fat"
+                placeholder="Fat (g)" autocomplete="off" disabled="disabled"
+                [class.is-invalid]="isControlInvalid('fat')" [class.is-valid]="isControlValid('fat')"
+                formControlName="fat" />
+              <div class="valid-feedback" *ngIf="isControlValid('fat')">
+                Fat (g) was entered correct
+              </div>
+              <div class="invalid-feedback" *ngIf="controlHasError('required', 'fat')">
+                Fat (g) is required
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col">
+              <label class="form-label">Calories (cal)</label>
+              <input type="text" class="form-control form-control-lg form-control-solid" name="calories"
+                placeholder="Calories (kcal)" autocomplete="off" disabled="disabled"
+                [class.is-invalid]="isControlInvalid('calories')" [class.is-valid]="isControlValid('calories')"
+                formControlName="calories" />
+              <div class="valid-feedback" *ngIf="isControlValid('calories')">
+                Calories (kcal) was entered correct
+              </div>
+              <div class="invalid-feedback" *ngIf="controlHasError('required', 'calories')">
+                Calories (kcal) is required
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col">
+              <label class="form-label">Carbohydrates (g)</label>
+              <input type="text" class="form-control form-control-lg form-control-solid" name="carbohydrates"
+                placeholder="Carbohydrates (g)" autocomplete="off" disabled="disabled"
+                [class.is-invalid]="isControlInvalid('carbohydrates')"
+                [class.is-valid]="isControlValid('carbohydrates')" formControlName="carbohydrates" />
+              <div class="valid-feedback" *ngIf="isControlValid('carbohydrates')">
+                Carbohydrates (g) was entered correct
+              </div>
+              <div class="invalid-feedback" *ngIf="controlHasError('required', 'carbohydrates')">
+                Carbohydrates (g) is required
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">
+      Cancel
+    </button>
+    <ng-container *ngIf="ingredient">
+      <button type="submit" class="btn btn-primary btn-elevate" (click)="save()" [disabled]="formGroup.invalid">
+        Save
+      </button>
+    </ng-container>
+  </div>
+</div>
