@@ -2,6 +2,8 @@
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { catchError, finalize, tap } from 'rxjs/operators';
+import { HttpHeaders } from '@angular/common/http';
+
 import { PaginatorState } from '../models/paginator.model';
 import { ITableState, TableResponseModel } from '../models/table.model';
 import { BaseModel } from '../models/base.model';
@@ -26,6 +28,11 @@ export abstract class TableService<T> {
   private _tableState$ = new BehaviorSubject<ITableState>(DEFAULT_STATE);
   private _errorMessage = new BehaviorSubject<string>('');
   private _subscriptions: Subscription[] = [];
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'x-api-key': environment.Ingredient_API_Key,
+    }),
+  };
 
   // Getters
   get items$() {
@@ -70,10 +77,9 @@ export abstract class TableService<T> {
   // CREATE
   // server should return the object with ID
   create(item: BaseModel): Observable<BaseModel> {
-    console.log('create');
     this._isLoading$.next(true);
     this._errorMessage.next('');
-    return this.http.post<BaseModel>(this.API_URL, item).pipe(
+    return this.http.post<BaseModel>(this.API_URL, item, this.httpOptions).pipe(
       catchError((err) => {
         this._errorMessage.next(err);
         console.error('CREATE ITEM', err);
@@ -87,19 +93,21 @@ export abstract class TableService<T> {
   find(tableState: ITableState): Observable<TableResponseModel<T>> {
     const url = this.API_URL + '/find';
     this._errorMessage.next('');
-    return this.http.post<TableResponseModel<T>>(url, tableState).pipe(
-      catchError((err) => {
-        this._errorMessage.next(err);
-        return of({ items: [], total: 0 });
-      })
-    );
+    return this.http
+      .post<TableResponseModel<T>>(url, tableState, this.httpOptions)
+      .pipe(
+        catchError((err) => {
+          this._errorMessage.next(err);
+          return of({ items: [], total: 0 });
+        })
+      );
   }
 
   getItemById(id: number): Observable<BaseModel> {
     this._isLoading$.next(true);
     this._errorMessage.next('');
     const url = `${this.API_URL}/${id}`;
-    return this.http.get<BaseModel>(url).pipe(
+    return this.http.get<BaseModel>(url, this.httpOptions).pipe(
       catchError((err) => {
         this._errorMessage.next(err);
         return of({ id: undefined });
@@ -113,8 +121,9 @@ export abstract class TableService<T> {
     const url = `${this.API_URL}/${item.id}`;
     this._isLoading$.next(true);
     this._errorMessage.next('');
-    return this.http.put(url, item).pipe(
+    return this.http.put(url, item, this.httpOptions).pipe(
       catchError((err) => {
+        console.error(err);
         this._errorMessage.next(err);
         return of(item);
       }),
@@ -128,7 +137,7 @@ export abstract class TableService<T> {
     this._errorMessage.next('');
     const body = { ids, status };
     const url = this.API_URL + '/updateStatus';
-    return this.http.put(url, body).pipe(
+    return this.http.put(url, body, this.httpOptions).pipe(
       catchError((err) => {
         this._errorMessage.next(err);
 
@@ -143,7 +152,7 @@ export abstract class TableService<T> {
     this._isLoading$.next(true);
     this._errorMessage.next('');
     const url = `${this.API_URL}/${id}`;
-    return this.http.delete(url).pipe(
+    return this.http.delete(url, this.httpOptions).pipe(
       catchError((err) => {
         this._errorMessage.next(err);
         return of({});
@@ -158,7 +167,7 @@ export abstract class TableService<T> {
     this._errorMessage.next('');
     const url = this.API_URL + '/deleteItems';
     const body = { ids };
-    return this.http.put(url, body).pipe(
+    return this.http.put(url, body, this.httpOptions).pipe(
       catchError((err) => {
         this._errorMessage.next(err);
         return of([]);

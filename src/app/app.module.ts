@@ -8,14 +8,13 @@ import { InlineSVGModule } from 'ng-inline-svg';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { FooterComponent } from './components/shared/footer/footer.component';
-
 @NgModule({
-  declarations: [AppComponent, FooterComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -28,7 +27,7 @@ import { FooterComponent } from './components/shared/footer/footer.component';
     HttpClientModule,
     InlineSVGModule,
   ],
-  providers: [],
+  providers: [NgxImageCompressService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

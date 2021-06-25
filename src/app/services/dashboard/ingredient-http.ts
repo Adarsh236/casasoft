@@ -1,13 +1,14 @@
-import { Ingredient } from '../../models/dashboard-models/ingredient.model';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map, mergeMap } from 'rxjs/operators';
+
+import { Ingredient } from '../../models/dashboard-models/ingredient.model';
 import {
   IngredientInfo,
   Ingredients,
 } from 'src/app/models/dashboard-models/ingredient.model';
 import { environment } from 'src/environments/environment';
-import { map, mergeMap } from 'rxjs/operators';
 
 const API_BASE_URL = `${environment.Spoonacular_Base_Url}/food/ingredients`;
 

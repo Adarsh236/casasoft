@@ -1,4 +1,4 @@
-import { BaseModel } from 'src/app/components/shared/crud-table';
+import { BaseModel } from './base.model';
 
 export interface Ingredient extends BaseModel {
   title: string;

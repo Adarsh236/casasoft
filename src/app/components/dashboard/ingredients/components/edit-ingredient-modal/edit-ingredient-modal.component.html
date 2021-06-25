@@ -43,8 +43,7 @@
                     btn-shadow
                   " data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
                   <i class="fa fa-pen icon-sm text-muted"></i>
-                  <input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg"
-                    (change)="selectedAndSubmitFile($event)" />
+                  <input name="profile_avatar" accept=".png, .jpg, .jpeg" (click)="selectedAndSubmitFile()" />
                   <input type="hidden" name="profile_avatar_remove" formControlName="img" />
                 </label>
                 <span class="
@@ -115,9 +114,8 @@
             <div class="col">
               <label class="form-label">Fat (g)</label>
               <input type="text" class="form-control form-control-lg form-control-solid" name="fat"
-                placeholder="Fat (g)" autocomplete="off" disabled="disabled"
-                [class.is-invalid]="isControlInvalid('fat')" [class.is-valid]="isControlValid('fat')"
-                formControlName="fat" />
+                placeholder="Fat (g)" autocomplete="off" [class.is-invalid]="isControlInvalid('fat')"
+                [class.is-valid]="isControlValid('fat')" formControlName="fat" />
               <div class="valid-feedback" *ngIf="isControlValid('fat')">
                 Fat (g) was entered correct
               </div>
@@ -129,11 +127,10 @@
 
           <div class="form-group">
             <div class="col">
-              <label class="form-label">Calories (cal)</label>
+              <label class="form-label">Calories (kcal)</label>
               <input type="text" class="form-control form-control-lg form-control-solid" name="calories"
-                placeholder="Calories (kcal)" autocomplete="off" disabled="disabled"
-                [class.is-invalid]="isControlInvalid('calories')" [class.is-valid]="isControlValid('calories')"
-                formControlName="calories" />
+                placeholder="Calories (kcal)" autocomplete="off" [class.is-invalid]="isControlInvalid('calories')"
+                [class.is-valid]="isControlValid('calories')" formControlName="calories" />
               <div class="valid-feedback" *ngIf="isControlValid('calories')">
                 Calories (kcal) was entered correct
               </div>
@@ -147,7 +144,7 @@
             <div class="col">
               <label class="form-label">Carbohydrates (g)</label>
               <input type="text" class="form-control form-control-lg form-control-solid" name="carbohydrates"
-                placeholder="Carbohydrates (g)" autocomplete="off" disabled="disabled"
+                placeholder="Carbohydrates (g)" autocomplete="off"
                 [class.is-invalid]="isControlInvalid('carbohydrates')"
                 [class.is-valid]="isControlValid('carbohydrates')" formControlName="carbohydrates" />
               <div class="valid-feedback" *ngIf="isControlValid('carbohydrates')">

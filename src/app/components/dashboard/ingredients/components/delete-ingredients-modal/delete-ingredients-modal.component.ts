@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, Subscription } from 'rxjs';
 import { catchError, delay, finalize, tap } from 'rxjs/operators';
-import { Ingredient } from 'src/app/models/dashboard-models/ingredient.model';
+
 import { IngredientsService } from 'src/app/services/dashboard/ingredients.service';
 
 @Component({

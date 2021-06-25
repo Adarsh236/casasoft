@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:4000',
+  apiUrl: 'https://8v3xhvij9h.execute-api.us-east-2.amazonaws.com/dev',
+  Ingredient_API_Key: 'WF5F46R2a21iteotGvv5Z9xEjdH5nuHdyhgB8CQf',
   AWS_UserPoolId: 'us-east-2_OgzmZczSW',
   AWS_ClientId: '5dukledt47clj4macvvfo333t2',
   Spoonacular_Base_Url: 'https://api.spoonacular.com',

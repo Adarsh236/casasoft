@@ -7,9 +7,10 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { AuthComponent } from './auth.component';
 
 import { LoginComponent } from './login/login.component';
+import { FooterComponent } from 'src/app/components/shared/footer/footer.component';
 
 @NgModule({
-  declarations: [AuthComponent, LoginComponent],
+  declarations: [AuthComponent, LoginComponent, FooterComponent],
   imports: [
     CommonModule,
     AuthRoutingModule,

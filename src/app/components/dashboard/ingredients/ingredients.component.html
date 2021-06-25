@@ -10,48 +10,22 @@
     </div>
   </div>
   <div class="card-body">
-    <!-- begin: Grouping -->
-    <ng-container *ngIf="grouping.getSelectedRowsCount()">
-      <div class="form">
-        <div class="row align-items-center form-group-actions margin-bottom-20">
-          <div class="col-xl-12">
-            <div class="form-group form-group-inline">
-              <div class="form-label form-label-no-wrap">
-                <label class="font-bold font-danger"><span>Selected records count:
-                    <b>{{ grouping.getSelectedRowsCount() }}</b></span></label>
-              </div>
-              <div>
-                <button type="button" class="btn btn-danger font-weight-bolder font-size-sm mr-1"
-                  (click)="deleteSelected()">
-                  <i class="fa fa-trash"></i> Delete All
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </ng-container>
-    <!-- end: Grouping -->
 
     <!-- begin:Table -->
     <div class="table-responsive angular-bootstrap-table">
       <table class="table table-head-custom table-vertical-center overflow-hidden">
         <thead>
-          <th class="selection-cell-header" data-row-selection="true">
-            <label class="checkbox checkbox-single"><input type="checkbox" (click)="grouping.selectAllRows()"
-                [checked]="grouping.checkAreAllRowsSelected()" /><span></span></label>
-          </th>
+          <th>S. NO.</th>
           <th>ID</th>
           <th>IMAGE</th>
           <th>TITLE</th>
           <th>ACTIONS</th>
         </thead>
         <tbody>
-          <tr *ngFor="let ingredient of ingredientService.items$ | async">
+          <tr *ngFor="let ingredient of ingredientService.items$ | async; let i = index">
             <td class="selection-cell">
-              <label class="checkbox checkbox-single"><input type="checkbox" (click)="grouping.selectRow(ingredient.id)"
-                  [checked]="grouping.isRowSelected(ingredient.id)" />
-                <span></span>
+              <label class="checkbox checkbox-single">
+                {{i}} )
               </label>
             </td>
             <td>{{ ingredient.id }}</td>
@@ -61,7 +35,10 @@
                   mr-5
                   align-self-start align-self-xxl-center
                 ">
-                <div class="symbol-label" [style.backgroundImage]="'url(' + ingredient.img + ')'"></div>
+                <div class="symbol-label" *ngIf="!ingredient.img"
+                  [style.backgroundImage]="'url(./assets/media/users/blank.png)'"></div>
+                <div class="symbol-label" *ngIf="ingredient.img"
+                  [style.backgroundImage]="'url(' + ingredient.img + ')'"></div>
               </div>
             </td>
             <td>{{ ingredient.title }}</td>

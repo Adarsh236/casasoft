@@ -63,11 +63,9 @@ export class AuthService implements OnDestroy {
     return new Observable((observer: Observer<any>) => {
       this.user.authenticateUser(authDetails, {
         onSuccess: (result) => {
-          console.log('login onSuccess', result);
           observer.next(result);
         },
         onFailure: (err) => {
-          console.log('login onFailure', err);
           observer.error(err);
         },
         mfaRequired: () => {
@@ -152,7 +150,6 @@ export class AuthService implements OnDestroy {
 
   signOut(): boolean {
     const user: CognitoUser = this.getUserPool().getCurrentUser();
-    console.log('signOut', user != null);
     if (user != null) {
       user.signOut();
       return true;

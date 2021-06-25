@@ -29,14 +29,12 @@ export class NutritionService implements OnDestroy {
     return this.ingredientHTTPService.searchIngredients(title).pipe(
       map((ingredient: IngredientInfo) => {
         const nutrients = ['fat', 'calories', 'carbohydrates'];
-        console.log(ingredient);
         return ingredient.nutrition.nutrients.filter((n: Nutrient) =>
           nutrients.includes(n.name.toLowerCase())
         );
       }),
       catchError((err) => {
-        console.error('err', err);
-        return of(undefined);
+        return of([]);
       }),
       finalize(() => this.isLoadingSubject.next(false))
     );

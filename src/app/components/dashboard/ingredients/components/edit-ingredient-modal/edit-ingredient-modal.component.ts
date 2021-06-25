@@ -6,23 +6,25 @@ import {
   NgbDateParserFormatter,
 } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of, Subscription } from 'rxjs';
-import { catchError, finalize, first, tap } from 'rxjs/operators';
+import { catchError, first, tap } from 'rxjs/operators';
+import { NgxImageCompressService } from 'ngx-image-compress';
+
 import {
   Ingredient,
   Nutrient,
 } from 'src/app/models/dashboard-models/ingredient.model';
 import { IngredientsService } from 'src/app/services/dashboard/ingredients.service';
 import { NutritionService } from 'src/app/services/dashboard/nutrition.service';
+
 import {
   CustomAdapter,
   CustomDateParserFormatter,
 } from 'src/app/components/shared/core';
-import { DomSanitizer } from '@angular/platform-browser';
 
 const EMPTY_INGREDIENT: Ingredient = {
   id: undefined,
   title: '',
-  img: './assets/media/users/300_25.jpg',
+  img: '',
   fat: 0,
   calories: 0,
   carbohydrates: 0,
@@ -50,18 +52,23 @@ export class EditIngredientModalComponent implements OnInit, OnDestroy {
     private nutritionService: NutritionService,
     private fb: FormBuilder,
     public modal: NgbActiveModal,
-    private sanitizer: DomSanitizer
+    private imageCompress: NgxImageCompressService
   ) {
     this.isLoading$ =
       this.ingredientsService.isLoading$ && this.nutritionService.isLoading$;
   }
 
   ngOnInit(): void {
-    this.loadCustomer();
+    this.loadIngredient();
   }
 
-  loadCustomer() {
+  loadIngredient() {
     if (!this.id) {
+      EMPTY_INGREDIENT.title = '';
+      EMPTY_INGREDIENT.img = '';
+      EMPTY_INGREDIENT.fat = 0;
+      EMPTY_INGREDIENT.calories = 0;
+      EMPTY_INGREDIENT.carbohydrates = 0;
       this.ingredient = EMPTY_INGREDIENT;
       this.loadForm();
     } else {
@@ -93,26 +100,49 @@ export class EditIngredientModalComponent implements OnInit, OnDestroy {
           Validators.maxLength(10),
         ]),
       ],
-      fat: [this.ingredient.fat, Validators.compose([Validators.required])],
+      fat: [
+        this.ingredient.fat,
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('^[0-9]*$'),
+          Validators.minLength(1),
+        ]),
+      ],
       calories: [
         this.ingredient.calories,
-        Validators.compose([Validators.required]),
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('^[0-9]*$'),
+          Validators.minLength(1),
+        ]),
       ],
       carbohydrates: [
         this.ingredient.carbohydrates,
-        Validators.compose([Validators.required]),
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('^[0-9]*$'),
+          Validators.minLength(1),
+        ]),
       ],
     });
   }
 
-  selectedAndSubmitFile(event: any) {
-    const e = event.target;
-    if (e.files && e.files[0]) {
-      const file = e.files[0];
-      const reader = new FileReader();
-      reader.onload = () => (this.ingredient.img = reader.result as string);
-      reader.readAsDataURL(file);
+  selectedAndSubmitFile() {
+    this.isLoading$ = of(true);
+    try {
+      this.imageCompress.uploadFile().then(({ image, orientation }) => {
+        this.imageCompress
+          .compressFile(image, orientation, 50, 50)
+          .then((result) => {
+            if (result) {
+              this.ingredient.img = result;
+            }
+          });
+      });
+    } catch (error) {
+      console.error('image upload failed');
     }
+    this.isLoading$ = of(false);
   }
 
   getImg() {
@@ -124,12 +154,11 @@ export class EditIngredientModalComponent implements OnInit, OnDestroy {
   }
 
   deletePic() {
-    console.log('updateField', this.ingredient, this.ingredient.img);
     this.ingredient.img = '';
   }
 
   fetchNutrients() {
-    this.prepareCustomer();
+    this.prepareIngredient();
     const sbCreate = this.nutritionService
       .getNutrients(this.ingredient.title)
       .pipe(
@@ -142,14 +171,13 @@ export class EditIngredientModalComponent implements OnInit, OnDestroy {
         nutrient.forEach((e) => this.updateFields(e));
         if (nutrient.length) this.fetchMsg = false;
         else this.fetchMsg = true;
-        console.log('updateField', this.fetchMsg);
         this.loadForm();
       });
     this.subscriptions.push(sbCreate);
   }
 
   save() {
-    this.prepareCustomer();
+    this.prepareIngredient();
     if (this.ingredient.id) {
       this.edit();
     } else {
@@ -197,13 +225,10 @@ export class EditIngredientModalComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((sb) => sb.unsubscribe());
   }
 
-  private prepareCustomer() {
-    const formData = this.formGroup.value;
-    this.ingredient.title = formData.title;
-    this.ingredient.img = formData.img;
-    this.ingredient.fat = formData.fat;
-    this.ingredient.calories = formData.calories;
-    this.ingredient.carbohydrates = formData.carbohydrates;
+  private prepareIngredient() {
+    const formValues = this.formGroup.value;
+    formValues.img = this.ingredient.img;
+    this.ingredient = Object.assign(this.ingredient, formValues);
   }
 
   private updateFields(nutrient: Nutrient) {
