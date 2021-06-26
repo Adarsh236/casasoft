@@ -11,7 +11,7 @@ export class PaginatorComponent implements OnInit {
   @Input() isLoading;
   @Output() paginate: EventEmitter<PaginatorState> = new EventEmitter();
   pageSizes: number[] = PageSizes;
-  constructor() {}
+  constructor() { }
 
   ngOnInit(): void {
   }

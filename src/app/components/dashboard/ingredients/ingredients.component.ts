@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IngredientsService } from 'src/app/services/dashboard/ingredients.service';
 import {
+  GroupingState,
   PaginatorState,
   ICreateAction,
   IEditAction,
@@ -22,9 +23,9 @@ import { EditIngredientModalComponent } from './components/edit-ingredient-modal
   styleUrls: ['./ingredients.component.scss'],
 })
 export class IngredientsComponent
-  implements OnInit, OnDestroy, ICreateAction, IEditAction, IDeleteAction
-{
+  implements OnInit, OnDestroy, ICreateAction, IEditAction, IDeleteAction, IGroupingView {
   paginator: PaginatorState;
+  grouping: GroupingState;
   isLoading: boolean;
   private subscriptions: Subscription[] = [];
 
@@ -32,10 +33,11 @@ export class IngredientsComponent
     private fb: FormBuilder,
     private modalService: NgbModal,
     public ingredientService: IngredientsService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.ingredientService.fetch();
+    this.grouping = this.ingredientService.grouping;
     this.paginator = this.ingredientService.paginator;
     const sb = this.ingredientService.isLoading$.subscribe(
       (res) => (this.isLoading = res)
@@ -64,7 +66,7 @@ export class IngredientsComponent
     modalRef.componentInstance.id = id;
     modalRef.result.then(
       () => this.ingredientService.fetch(),
-      () => {}
+      () => { }
     );
   }
 
@@ -73,7 +75,7 @@ export class IngredientsComponent
     modalRef.componentInstance.id = id;
     modalRef.result.then(
       () => this.ingredientService.fetch(),
-      () => {}
+      () => { }
     );
   }
 }

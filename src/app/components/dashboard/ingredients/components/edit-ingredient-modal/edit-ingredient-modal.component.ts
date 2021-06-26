@@ -90,6 +90,7 @@ export class EditIngredientModalComponent implements OnInit, OnDestroy {
   }
 
   loadForm() {
+    const numberRegex = '^(?=.)([+]?([0-9]*)(\.([0-9]+))?)$';
     this.formGroup = this.fb.group({
       img: [this.ingredient.img],
       title: [
@@ -104,24 +105,21 @@ export class EditIngredientModalComponent implements OnInit, OnDestroy {
         this.ingredient.fat,
         Validators.compose([
           Validators.required,
-          Validators.pattern('^[0-9]*$'),
-          Validators.minLength(1),
+          Validators.pattern(numberRegex),
         ]),
       ],
       calories: [
         this.ingredient.calories,
         Validators.compose([
           Validators.required,
-          Validators.pattern('^[0-9]*$'),
-          Validators.minLength(1),
+          Validators.pattern(numberRegex),
         ]),
       ],
       carbohydrates: [
         this.ingredient.carbohydrates,
         Validators.compose([
           Validators.required,
-          Validators.pattern('^[0-9]*$'),
-          Validators.minLength(1),
+          Validators.pattern(numberRegex),
         ]),
       ],
     });

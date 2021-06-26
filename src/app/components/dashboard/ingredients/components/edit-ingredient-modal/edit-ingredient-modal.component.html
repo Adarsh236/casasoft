@@ -113,7 +113,7 @@
           <div class="form-group">
             <div class="col">
               <label class="form-label">Fat (g)</label>
-              <input type="text" class="form-control form-control-lg form-control-solid" name="fat"
+              <input type="number" class="form-control form-control-lg form-control-solid" name="fat"
                 placeholder="Fat (g)" autocomplete="off" [class.is-invalid]="isControlInvalid('fat')"
                 [class.is-valid]="isControlValid('fat')" formControlName="fat" />
               <div class="valid-feedback" *ngIf="isControlValid('fat')">
@@ -128,7 +128,7 @@
           <div class="form-group">
             <div class="col">
               <label class="form-label">Calories (kcal)</label>
-              <input type="text" class="form-control form-control-lg form-control-solid" name="calories"
+              <input type="number" class="form-control form-control-lg form-control-solid" name="calories"
                 placeholder="Calories (kcal)" autocomplete="off" [class.is-invalid]="isControlInvalid('calories')"
                 [class.is-valid]="isControlValid('calories')" formControlName="calories" />
               <div class="valid-feedback" *ngIf="isControlValid('calories')">
@@ -143,7 +143,7 @@
           <div class="form-group">
             <div class="col">
               <label class="form-label">Carbohydrates (g)</label>
-              <input type="text" class="form-control form-control-lg form-control-solid" name="carbohydrates"
+              <input type="number" class="form-control form-control-lg form-control-solid" name="carbohydrates"
                 placeholder="Carbohydrates (g)" autocomplete="off"
                 [class.is-invalid]="isControlInvalid('carbohydrates')"
                 [class.is-valid]="isControlValid('carbohydrates')" formControlName="carbohydrates" />

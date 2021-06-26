@@ -32,10 +32,14 @@ export class AuthService implements OnDestroy {
 
   // public fields
   user: CognitoUser;
+  hasError$: Observable<boolean>;
+  hasErrorSubject: BehaviorSubject<boolean>;
   isLoading$: Observable<boolean>;
   isLoadingSubject: BehaviorSubject<boolean>;
 
   constructor() {
+    this.hasErrorSubject = new BehaviorSubject<boolean>(false);
+    this.hasError$ = this.hasErrorSubject.asObservable();
     this.isLoadingSubject = new BehaviorSubject<boolean>(false);
     this.isLoading$ = this.isLoadingSubject.asObservable();
   }
@@ -46,6 +50,7 @@ export class AuthService implements OnDestroy {
 
   // public methods
   login(email: string, password: string): Observable<CognitoUserSession> {
+    this.hasErrorSubject.next(false);
     this.isLoadingSubject.next(true);
 
     const userPool = this.getUserPool();
@@ -66,6 +71,7 @@ export class AuthService implements OnDestroy {
           observer.next(result);
         },
         onFailure: (err) => {
+          this.hasErrorSubject.next(true);
           observer.error(err);
         },
         mfaRequired: () => {

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription, Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     password: 'TestUser2@',
   };
   loginForm: FormGroup;
-  hasError: boolean;
+  hasError$: Observable<boolean>;
   isLoading$: Observable<boolean>;
 
   // private fields
@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router
   ) {
+    this.hasError$ = this.authService.hasError$;
     this.isLoading$ = this.authService.isLoading$;
   }
 
@@ -61,15 +62,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    this.hasError = false;
     const loginSubscr = this.authService
       .login(this.form.email.value, this.form.password.value)
       .pipe(first())
       .subscribe((user) => {
         if (user) {
           this.router.navigate(['dashboard']);
-        } else {
-          this.hasError = true;
         }
       });
     this.unsubscribe.push(loginSubscr);
